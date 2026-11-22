@@ -103,17 +103,18 @@ public class Area {
 	 */
 	// TODO: method enter
 	public synchronized void enter(Patient p) {
-		this.waiting++;
-		while(this.numPatients>=this.capacity) {
-			try {
+		try {
+			while(numPatients==capacity) {
+				waiting++;
 				wait();
-			} catch(InterruptedException e) {
-				e.printStackTrace();
 			}
-		}
-		this.numPatients++;
-		this.waiting--;
-	}	
+			numPatients++;
+			waiting--;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			}
+		
+	}
 	
 	/**
 	 * Thread safe method that allows a Patient to exit the area. After the Patient
@@ -123,7 +124,7 @@ public class Area {
 	 */
 	// TODO method exit
 	public synchronized void exit(Patient p) {
-		this.numPatients--;
+		numPatients--;
 		notifyAll();
 	}
 	

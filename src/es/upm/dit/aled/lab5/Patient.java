@@ -167,12 +167,11 @@ public class Patient extends Thread {
 		// TODO
 		location.enter(this);
 		attendedAtLocation();
-		this.location.exit(this);
-		for(Transfer t : this.protocol) {
+		for(Transfer t : protocol) {
+			location.exit(this);
 			advanceProtocol();
 			location.enter(this);
-			attendedAtLocation(); 
-			this.location.exit(this);
+			attendedAtLocation();
 		}
 		EmergencyRoomGUI.getInstance().removePatient(this);
 	}
